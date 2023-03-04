@@ -7,13 +7,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.21"
   },
   "name": "sparks",
   "version": "1.0.0",
   "description": "Task1",
   "main": "index.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Noureldin7/Sparks_Internship_Task1.git"
