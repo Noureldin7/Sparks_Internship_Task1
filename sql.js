@@ -6,4 +6,11 @@ var pool = sql.createPool({
     database:process.env.DB_NAME,
     port:process.env.DB_PORT
 })
+pool.getConnection((err)=>{
+    if(err)
+    {
+        throw Error("ConnectionFailed")
+    }
+
+})
 module.exports = pool
