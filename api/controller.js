@@ -62,3 +62,49 @@ exports.searchCustomerByName = async (req,res) => {
         }
     })
 }
+exports.transferMoney = async (req,res) => {
+    const senderId = req.body.senderId
+    const recipientId = req.body.recipientId
+    const amount = req.body.amount
+    db.getConnection((err,conn)=>{
+        if(err) throw Error("Failed to get connection");
+        conn.beginTransaction((err)=>{
+            if(err) throw Error("Failed to begin transaction")
+            conn.query(`Update Customers set current_balance=current_balance-${amount} where id = ${senderId}`,(err,results,fields)=>{
+                if(err){
+                    res.status(400).json({
+                        error:err.sqlMessage
+                    })
+                    return conn.rollback();
+                }
+                conn.query(`Update Customers set current_balance=current_balance+${amount} where id = ${recipientId}`,(err,results,fields)=>{
+                    if(err){
+                        res.status(400).json({
+                            error:err.sqlMessage
+                        })
+                        return conn.rollback();
+                    }
+                    conn.query(`Insert into Transfers (sender_id,recipient_id,amount) values(${senderId},${recipientId},${amount})`,(err,results,fields)=>{
+                        if(err){
+                            res.status(400).json({
+                                error:err.sqlMessage
+                            })
+                            return conn.rollback();
+                        }
+                        conn.commit((err)=>{
+                            if(err){
+                                res.status(400).json({
+                                    error:err.sqlMessage
+                                })
+                                return conn.rollback();
+                            }
+                            res.status(200).json({
+                                status:"Success"
+                            })
+                        })
+                    })
+                })
+            })
+        })
+    })
+}
