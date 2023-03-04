@@ -9,6 +9,7 @@ var pool = sql.createPool({
 pool.getConnection((err)=>{
     if(err)
     {
+        console.log(pool)
         throw Error("ConnectionFailed")
     }
 
