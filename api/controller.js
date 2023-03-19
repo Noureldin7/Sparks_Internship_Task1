@@ -1,37 +1,7 @@
 const db = require("./../sql")
 const countperpage = 5
 exports.getCustomers = async (req,res) => {
-    const offset = (req.query.pageno-1)*countperpage || 0
-    var pages = 0
-    db.query(`Select count(*) as count from Customers`,(err,results,fields)=>{
-        if(err){
-            res.status(400).json({
-                error:err.sqlMessage
-            })
-        }
-        else
-        {
-            pages = Math.ceil(results[0].count/countperpage)
-        }
-    })
     db.query(`Select * from Customers`,(err,results,fields)=>{
-        if(err){
-            res.status(400).json({
-                error:err.sqlMessage
-            })
-        }
-        else
-        {
-            res.status(200).json({
-                result:results,
-                pages:pages
-            })
-        }
-    })
-}
-exports.getCustomerById = async (req,res) => {
-    const id = req.params.id
-    db.query(`Select * from Customers Where id=${id}`,(err,results,fields)=>{
         if(err){
             res.status(400).json({
                 error:err.sqlMessage
@@ -45,9 +15,9 @@ exports.getCustomerById = async (req,res) => {
         }
     })
 }
-exports.getCustomerExceptId = async (req,res) => {
+exports.getCustomerById = async (req,res) => {
     const id = req.params.id
-    db.query(`Select id,name from Customers Where id!=${id}`,(err,results,fields)=>{
+    db.query(`Select * from Customers Where id=${id}`,(err,results,fields)=>{
         if(err){
             res.status(400).json({
                 error:err.sqlMessage
@@ -127,7 +97,7 @@ exports.transferMoney = async (req,res) => {
 exports.getTransfers = async (req,res) => {
     const offset = (req.query.pageno-1)*countperpage || 0
     var pages = 0
-    db.query(`Select count(*) as count from Customers`,(err,results,fields)=>{
+    db.query(`Select count(*) as count from Transfers`,(err,results,fields)=>{
         if(err){
             res.status(400).json({
                 error:err.sqlMessage
