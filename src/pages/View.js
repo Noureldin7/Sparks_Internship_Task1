@@ -5,7 +5,7 @@ import { get } from '../utils/APICallers';
 function View() {
     const [customers, setCustomers] = useState(null);
     useEffect(()=>{
-        get("http://localhost:3001/api/view").then((res)=>{
+        get("/view").then((res)=>{
             res.json().then((data)=>{
                 setCustomers(data.result)
             })

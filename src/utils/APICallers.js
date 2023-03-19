@@ -1,5 +1,6 @@
-export async function post(url,payload){
-    const response = await fetch(url,{
+import {url} from "./url"
+export async function post(route,payload){
+    const response = await fetch(url+route,{
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -9,8 +10,8 @@ export async function post(url,payload){
     });
     return response;
 }
-export async function put(url,payload){
-    const response = await fetch(url,{
+export async function put(route,payload){
+    const response = await fetch(url+route,{
         method: 'PUT',
         mode: 'cors',
         headers: {
@@ -20,9 +21,9 @@ export async function put(url,payload){
     });
     return response;
 }
-export async function get(url,params){
+export async function get(route,params){
     const urlExtend = params?"?"+new URLSearchParams(params):""
-    const response = await fetch(url+urlExtend,{
+    const response = await fetch(url+route+urlExtend,{
         method: 'GET',
         mode: 'cors',
         headers: {

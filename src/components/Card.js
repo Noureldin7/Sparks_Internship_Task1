@@ -9,7 +9,7 @@ function Card({data}) {
     const [recipient, setRecipient] = useState("");
     const [amount, setAmount] = useState("");
     useEffect(()=>{
-        get(`http://localhost:3001/api/search/${data.id}`,{'name':""}).then((res)=>{
+        get(`/search/${data.id}`,{'name':""}).then((res)=>{
             res.json().then((data)=>{
                 setRecipients(data.result)
             })
@@ -20,7 +20,7 @@ function Card({data}) {
         if(recipient.length>txt.length||(newChar>='a'&&newChar<='z')||(newChar>='A'&&newChar<='Z')||(newChar>='0'&&newChar<='9'))
         {
             setRecipient(txt)
-            get(`http://localhost:3001/api/search/${data.id}`,{'name':txt}).then((res)=>{
+            get(`/search/${data.id}`,{'name':txt}).then((res)=>{
                 res.json().then((data)=>{
                     setRecipients(data.result)
                 })
@@ -45,7 +45,7 @@ function Card({data}) {
         if(!amount) {alert("Please specify amount");return;}
         const substrs = recipient.split(',')
         if(!substrs[1]) {alert("Please specify recipient");return;}
-        put(`http://localhost:3001/api/transfer`,{senderId:data.id,recipientId:substrs[0],amount:amount}).then((res)=>{
+        put(`/transfer`,{senderId:data.id,recipientId:substrs[0],amount:amount}).then((res)=>{
             navigate('/view')
         })
     }

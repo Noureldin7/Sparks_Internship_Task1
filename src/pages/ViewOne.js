@@ -6,7 +6,7 @@ function ViewOne() {
     const [customer, setCustomer] = useState(null);
     const {id} = useParams();
     useEffect(()=>{
-        get(`http://localhost:3001/api/view/${id}`).then((res)=>{
+        get(`/view/${id}`).then((res)=>{
             res.json().then((data)=>{
                 setCustomer(data.result[0])
             })

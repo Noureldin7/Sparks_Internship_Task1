@@ -9,7 +9,7 @@ function Transfers() {
     const [query, setQuery] = useSearchParams()
     const pageno = query.get('pageno') || 1
     useEffect(()=>{
-        get("http://localhost:3001/api/transfers",{pageno:pageno}).then((res)=>{
+        get("/transfers",{pageno:pageno}).then((res)=>{
             res.json().then((data)=>{
                 setTransfers(data.result)
                 setPages([...Array(data.pages).keys()])

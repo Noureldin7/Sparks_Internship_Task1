@@ -3,7 +3,6 @@ import Row from "./Row"
 import "../styles/table.css"
 import { Link } from "react-router-dom";
 function Table({title,labels,data,pages}) {
-    console.log(pages)
     return (
         <>
             <div className="table">
