@@ -6,9 +6,9 @@ function Table({title,labels,data}) {
         <>
             <div className="table">
                 <h1 className="title">{title}</h1>
-                <Row data={labels}></Row>
+                <Row data={labels} className="labels"></Row>
                 {data.map(row => {
-                    return <Row data={row}></Row>
+                    return <Row data={row} className={title=='Transfers'?"transfer_row":undefined}></Row>
                 })}
             </div>
         </>

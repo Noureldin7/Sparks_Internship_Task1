@@ -9,7 +9,7 @@ function Card({data}) {
     const [recipient, setRecipient] = useState("");
     const [amount, setAmount] = useState("");
     useEffect(()=>{
-        get(`http://localhost:3001/api/search`,{'name':""}).then((res)=>{
+        get(`http://localhost:3001/api/search/${data.id}`,{'name':""}).then((res)=>{
             res.json().then((data)=>{
                 setRecipients(data.result)
             })
@@ -20,7 +20,7 @@ function Card({data}) {
         if(recipient.length>txt.length||(newChar>='a'&&newChar<='z')||(newChar>='A'&&newChar<='Z')||(newChar>='0'&&newChar<='9'))
         {
             setRecipient(txt)
-            get(`http://localhost:3001/api/search`,{'name':txt}).then((res)=>{
+            get(`http://localhost:3001/api/search/${data.id}`,{'name':txt}).then((res)=>{
                 res.json().then((data)=>{
                     setRecipients(data.result)
                 })
@@ -55,8 +55,9 @@ function Card({data}) {
                 <div className="info">
                     {Object.keys(data).map((key)=>{
                         if(key=='id')return<></>;
-                        else if(key=='name')return <span className="field" id={key}>{data[key]}</span>
-                        else return <span className="field" id={key}>{`${key}: `+data[key]}</span>
+                        else if(key=='name')return <span className="field" id={key+"_card"}>{data[key]}</span>
+                        else if(key=='email') return <span className="field" id={key}>{`Email: `+data[key]}</span>
+                        else if(key=='current_balance') return <span className="field" id={key}>{`Balance: `+data[key]}</span>
                     })}
                 </div>
                 <div className="transfer">

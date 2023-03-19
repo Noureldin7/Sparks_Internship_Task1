@@ -4,11 +4,25 @@
     width: 100%;
     justify-content: flex-start;
     align-items: center;
-    border: 1px solid black;
+    padding: 10px 0px;
+    box-shadow: 0 0 5px 0 #bbbbbb;
 }
-.row:hover{
+.row:not(.labels,.transfer_row):hover{
     background-color: aliceblue;
     cursor: pointer;
+}
+.transfer_row:hover{
+    background-color: aliceblue;
+}
+.labels{
+    margin: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0px;
+    background-color: #7898aa;
+    box-shadow: unset;
 }
 .record{
     margin: 10px;
@@ -26,5 +40,19 @@
     flex-basis: 40%;
 }
 #current_balance{
+    flex-basis: 15%;
+}
+
+#Sender{
+    flex-basis: 25%;
+}
+#Recipient{
+    flex-basis: 25%;
+}
+#transfer_date{
+
+    flex-basis: 35%;
+}
+#Amount{
     flex-basis: 15%;
 }
