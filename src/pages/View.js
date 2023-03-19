@@ -1,8 +1,9 @@
 import React, { useEffect,useState } from 'react'
+import Loading from '../components/Loading';
 import Table from "../components/Table"
 import { get } from '../utils/APICallers';
 function View() {
-    const [customers, setCustomers] = useState([]);
+    const [customers, setCustomers] = useState(null);
     useEffect(()=>{
         get("http://localhost:3001/api/view").then((res)=>{
             res.json().then((data)=>{
@@ -12,7 +13,7 @@ function View() {
     },[])
     return (
         <>
-            <Table title="Customers" labels={{'id':'ID','name':'Name','email':'E-mail','current_balance':'Balance'}} data={customers}></Table>
+            {customers?<Table title="Customers" labels={{'id':'ID','name':'Name','email':'E-mail','current_balance':'Balance'}} data={customers}></Table>:<Loading></Loading>}
         </>
     )
 }

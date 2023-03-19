@@ -44,7 +44,7 @@ function Card({data}) {
     function transfer(){
         if(!amount) {alert("Please specify amount");return;}
         const substrs = recipient.split(',')
-        if(!substrs) {alert("Please specify recipient");return;}
+        if(!substrs[1]) {alert("Please specify recipient");return;}
         put(`http://localhost:3001/api/transfer`,{senderId:data.id,recipientId:substrs[0],amount:amount}).then((res)=>{
             navigate('/view')
         })
@@ -68,7 +68,7 @@ function Card({data}) {
                         })}
                     </datalist>
                     <input className="field" placeholder="Amount" type='number' value={amount} onChange={(e)=>changeAmount(e.target.value)}></input>
-                    <button className="field" onClick={transfer}>Transfer Amount</button>
+                    <button className="button field" onClick={transfer}>Transfer Amount</button>
                 </div>
             </div>
         </>

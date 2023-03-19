@@ -8,7 +8,7 @@ function Home() {
     return (
         <>
         <div className='home'>
-            <h1>Banking System</h1>
+            <h1>Banking  System</h1>
             <div className='buttons'>
                 <button className='button' onClick={()=>navigate('/view')}>Customers</button>
                 <button className='button' onClick={()=>navigate('/transfers')}>Transfers</button>

@@ -1,18 +1,24 @@
 import React, { useEffect,useState } from 'react'
+import { useSearchParams } from 'react-router-dom';
+import Loading from '../components/Loading';
 import Table from "../components/Table"
 import { get } from '../utils/APICallers';
 function Transfers() {
-    const [transfers, setTransfers] = useState([]);
+    const [transfers, setTransfers] = useState(null);
+    const [pages, setPages] = useState(null);
+    const [query, setQuery] = useSearchParams()
+    const pageno = query.get('pageno') || 1
     useEffect(()=>{
-        get("http://localhost:3001/api/transfers").then((res)=>{
+        get("http://localhost:3001/api/transfers",{pageno:pageno}).then((res)=>{
             res.json().then((data)=>{
                 setTransfers(data.result)
+                setPages([...Array(data.pages).keys()])
             })
         })
-    },[])
+    },[pageno])
     return (
         <>
-            <Table title="Transfers" labels={{'Sender':'Sender','Recipient':'Recipient','Amount':'Amount','transfer_date':'Transfer Date'}} data={transfers}></Table>
+            {(transfers&&pages)?<Table title="Transfers" labels={{'Sender':'Sender','Recipient':'Recipient','Amount':'Amount','transfer_date':'Transfer Date'}} data={transfers} pages={pages}></Table>:<Loading></Loading>}
         </>
     )
 }
