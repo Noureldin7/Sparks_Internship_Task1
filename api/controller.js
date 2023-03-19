@@ -1,5 +1,6 @@
 const db = require("./../sql")
 const countperpage = 5
+var pages = 0
 exports.getCustomers = async (req,res) => {
     db.query(`Select * from Customers`,(err,results,fields)=>{
         if(err){
@@ -96,7 +97,6 @@ exports.transferMoney = async (req,res) => {
 }
 exports.getTransfers = async (req,res) => {
     const offset = (req.query.pageno-1)*countperpage || 0
-    var pages = 0
     db.query(`Select count(*) as count from Transfers`,(err,results,fields)=>{
         if(err){
             res.status(400).json({
