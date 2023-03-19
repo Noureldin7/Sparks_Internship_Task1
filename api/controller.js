@@ -1,5 +1,19 @@
 const db = require("./../sql")
+const countperpage = 5
 exports.getCustomers = async (req,res) => {
+    const offset = (req.query.pageno-1)*countperpage || 0
+    var pages = 0
+    db.query(`Select count(*) as count from Customers`,(err,results,fields)=>{
+        if(err){
+            res.status(400).json({
+                error:err.sqlMessage
+            })
+        }
+        else
+        {
+            pages = Math.ceil(results[0].count/countperpage)
+        }
+    })
     db.query(`Select * from Customers`,(err,results,fields)=>{
         if(err){
             res.status(400).json({
@@ -9,7 +23,8 @@ exports.getCustomers = async (req,res) => {
         else
         {
             res.status(200).json({
-                result:results
+                result:results,
+                pages:pages
             })
         }
     })
@@ -48,7 +63,8 @@ exports.getCustomerExceptId = async (req,res) => {
 }
 exports.searchCustomerByName = async (req,res) => {
     const name = req.query.name
-    db.query(`Select id,name from Customers Where name like '%${name}%'`,(err,results,fields)=>{
+    const id = req.params.id
+    db.query(`Select id,name from Customers Where name like '%${name}%' and id!=${id}`,(err,results,fields)=>{
         if(err){
             res.status(400).json({
                 error:err.sqlMessage
@@ -106,5 +122,42 @@ exports.transferMoney = async (req,res) => {
                 })
             })
         })
+    })
+}
+exports.getTransfers = async (req,res) => {
+    const offset = (req.query.pageno-1)*countperpage || 0
+    var pages = 0
+    db.query(`Select count(*) as count from Customers`,(err,results,fields)=>{
+        if(err){
+            res.status(400).json({
+                error:err.sqlMessage
+            })
+        }
+        else
+        {
+            pages = Math.ceil(results[0].count/countperpage)
+        }
+    })
+    db.query(`Select Sender.name as Sender, Recipient.name as Recipient, amount as Amount, transfer_date
+    from Transfers
+    Inner Join Customers as Sender on (sender_id=Sender.ID)
+    Inner Join Customers as Recipient on (recipient_id=Recipient.ID)
+    order by transfer_date desc
+    limit ${countperpage} offset ${offset}`,(err,results,fields)=>{
+        if(err){
+            res.status(400).json({
+                error:err.sqlMessage
+            })
+        }
+        else
+        {
+            results.forEach(element => {
+                element.transfer_date = new Date(element.transfer_date).toLocaleDateString()
+            });
+            res.status(200).json({
+                result:results,
+                pages:pages
+            })
+        }
     })
 }
